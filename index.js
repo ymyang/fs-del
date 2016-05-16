@@ -33,6 +33,28 @@ del.empty = function(dirs) {
     });
 };
 
+del.count = function(files) {
+    var c = {
+        fileCount: 0,
+        dirCount: 0,
+        totalSize: 0
+    };
+
+    if (!files) {
+        return c;
+    }
+
+    if (!util.isArray(files)) {
+        files = [files];
+    }
+
+    files.forEach(function(f) {
+        _count(f, c);
+    });
+
+    return c;
+};
+
 module.exports = del;
 
 function _remove(file, empty) {
@@ -53,4 +75,24 @@ function _remove(file, empty) {
     } else {
         fs.unlinkSync(file);
     }
+}
+
+function _count(f, c) {
+    if (!fs.existsSync(f)) {
+        return;
+    }
+
+    var stat = fs.statSync(f);
+
+    if (stat.isDirectory()) {
+        c.dirCount ++;
+        var subs = fs.readdirSync(f) || [];
+        subs.forEach(function(sub) {
+            _count(path.join(f, sub), c);
+        });
+    } else if (stat.isFile()) {
+        c.fileCount ++;
+        c.totalSize += stat.size;
+    }
+
 }

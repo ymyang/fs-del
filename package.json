@@ -1,6 +1,6 @@
 {
   "name": "fs-del",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "delete files and folders",
   "main": "index.js",
   "scripts": {

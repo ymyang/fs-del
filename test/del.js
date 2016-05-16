@@ -14,7 +14,12 @@ describe('del', function() {
         del(['E:/test/20160403.txt', 'E:/test/20160404.txt', 'E:/test/s1']);
     });
 
-    it.only('empty', function() {
+    it('empty', function() {
         del.empty('E:/test/s3')
-    })
+    });
+
+    it.only('count', function() {
+        var c = del.count('E:/test');
+        console.log(c);
+    });
 });
